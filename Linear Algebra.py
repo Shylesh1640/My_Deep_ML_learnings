@@ -1,4 +1,4 @@
-'''Matrix-Vector Dot Product
+'''1.Matrix-Vector Dot Product
 
 Write a Python function that computes the dot product of a matrix and a vector. The function should return a list representing the resulting vector if the operation is valid, or -1 if the matrix and vector dimensions are incompatible. A matrix (a list of lists) can be dotted with a vector (a list) only if the number of columns in the matrix equals the length of the vector. For example, an n x m matrix requires a vector of length m.
 
@@ -22,3 +22,30 @@ def matrix_dot_vector(a: List[List[Union[int, float]]], b: List[Union[int, float
         return -1  # Check if all rows have the same length and match vector length
 
     return [sum(a[row][col] * b[col] for col in range(num_cols)) for row in range(len(a))]
+'''2.Transpose of a Matrix
+
+Write a Python function that computes the transpose of a given matrix.
+
+Example:
+Input:
+a = [[1,2,3],[4,5,6]]
+Output:
+[[1,4],[2,5],[3,6]]
+Reasoning:
+The transpose of a matrix is obtained by flipping rows and columns.'''
+
+
+from typing import List, Union
+
+def transpose_matrix(a: List[List[Union[int, float]]]) -> List[List[Union[int, float]]]:
+    if not a or not a[0]:  
+        return []
+    
+    b = []  
+    for col in range(len(a[0])):  
+        new_row = []
+        for row in range(len(a)):  
+            new_row.append(a[row][col])  
+        b.append(new_row) 
+    
+    return b
