@@ -49,3 +49,31 @@ def transpose_matrix(a: List[List[Union[int, float]]]) -> List[List[Union[int, f
         b.append(new_row) 
     
     return b
+
+
+
+
+'''Reshape Matrix
+
+Write a Python function that reshapes a given matrix into a specified shape. if it cant be reshaped return back an empty list [ ]
+
+Example:
+Input:
+a = [[1,2,3,4],[5,6,7,8]], new_shape = (4, 2)
+Output:
+[[1, 2], [3, 4], [5, 6], [7, 8]]'''
+
+
+
+import numpy as np
+from typing import List, Tuple, Union
+
+def reshape_matrix(a: List[List[Union[int, float]]], new_shape: Tuple[int, int]) -> List[List[Union[int, float]]]:
+    flat_list = [num for row in a for num in row]
+    total_elements = len(flat_list)
+    if total_elements != new_shape[0] * new_shape[1]:
+        return []  
+    reshaped_matrix = np.array(flat_list).reshape(new_shape).tolist()
+    return reshaped_matrix
+
+
