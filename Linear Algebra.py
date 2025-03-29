@@ -1,3 +1,5 @@
+'''I am doing a daily challange in https://www.deep-ml.com/'''
+
 '''1.Matrix-Vector Dot Product
 
 Write a Python function that computes the dot product of a matrix and a vector. The function should return a list representing the resulting vector if the operation is valid, or -1 if the matrix and vector dimensions are incompatible. A matrix (a list of lists) can be dotted with a vector (a list) only if the number of columns in the matrix equals the length of the vector. For example, an n x m matrix requires a vector of length m.
@@ -106,3 +108,22 @@ def calculate_matrix_mean(matrix: List[List[float]], mode: str) -> List[float]:
 
     else:  # Handle invalid mode
         raise ValueError("Mode must be either 'row' or 'column'")
+
+
+
+'''Scalar Multiplication of a Matrix
+
+Write a Python function that multiplies a matrix by a scalar and returns the result.
+
+Example:
+Input:
+matrix = [[1, 2], [3, 4]], scalar = 2
+Output:
+[[2, 4], [6, 8]]
+Reasoning:
+Each element of the matrix is multiplied by the scalar.'''
+
+
+def scalar_multiply(matrix: list[list[int|float]], scalar: int|float) -> list[list[int|float]]:
+    result = [[scalar * element for element in row] for row in matrix]
+	return result
