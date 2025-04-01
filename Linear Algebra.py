@@ -219,3 +219,4 @@ def transform_matrix(A: list[list[int | float]], T: list[list[int | float]], S: 
         return transformed_matrix.tolist()
     except np.linalg.LinAlgError:
         return -1
+
