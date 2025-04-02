@@ -220,3 +220,27 @@ def transform_matrix(A: list[list[int | float]], T: list[list[int | float]], S: 
     except np.linalg.LinAlgError:
         return -1
 
+'''Calculate 2x2 Matrix Inverse
+
+Write a Python function that calculates the inverse of a 2x2 matrix. Return 'None' if the matrix is not invertible.
+
+Example:
+Input:
+matrix = [[4, 7], [2, 6]]
+Output:
+[[0.6, -0.7], [-0.2, 0.4]]
+Reasoning:
+The inverse of a 2x2 matrix [a, b], [c, d] is given by (1/(ad-bc)) * [d, -b], [-c, a], provided ad-bc is not zero.'''
+
+
+from typing import List, Union
+
+def inverse_2x2(matrix: List[List[float]]) -> Union[List[List[float]], None]:
+    a, b = matrix[0]
+    c, d = matrix[1]
+    determinant = (a * d) - (b * c)
+    if determinant == 0:
+        return None
+    inverse = [[d / determinant, -b / determinant], 
+               [-c / determinant, a / determinant]]
+    return inverse
