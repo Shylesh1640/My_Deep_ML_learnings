@@ -244,3 +244,31 @@ def inverse_2x2(matrix: List[List[float]]) -> Union[List[List[float]], None]:
     inverse = [[d / determinant, -b / determinant], 
                [-c / determinant, a / determinant]]
     return inverse
+
+
+'''Matrix times Matrix
+
+multiply two matrices together (return -1 if shapes of matrix dont aline), i.e. 
+C
+=
+A
+⋅
+B
+C=A⋅B
+
+Example:
+Input:
+A = [[1,2],[2,4]], B = [[2,1],[3,4]]
+Output:
+[[ 8,  9],[16, 18]]
+Reasoning:
+1*2 + 2*3 = 8; 2*2 + 3*4 = 16; 1*1 + 2*4 = 9; 2*1 + 4*4 = 18 Example 2: input: A = [[1,2], [2,4]], B = [[2,1], [3,4], [4,5]] output: -1 reasoning: the length of the rows of A does not equal the column length of B'''
+
+
+from typing import List, Union
+
+def matrixmul(a: List[List[Union[int, float]]], b: List[List[Union[int, float]]]) -> Union[List[List[Union[int, float]]], int]:
+    if len(a[0]) != len(b):
+        return -1  
+    c = [[sum(a[i][k] * b[k][j] for k in range(len(b))) for j in range(len(b[0]))] for i in range(len(a))]
+    return c
