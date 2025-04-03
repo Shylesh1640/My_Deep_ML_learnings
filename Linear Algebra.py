@@ -272,3 +272,29 @@ def matrixmul(a: List[List[Union[int, float]]], b: List[List[Union[int, float]]]
         return -1  
     c = [[sum(a[i][k] * b[k][j] for k in range(len(b))) for j in range(len(b[0]))] for i in range(len(a))]
     return c
+
+
+
+
+
+'''Calculate Covariance Matrix
+
+Write a Python function to calculate the covariance matrix for a given set of vectors. The function should take a list of lists, where each inner list represents a feature with its observations, and return a covariance matrix as a list of lists. Additionally, provide test cases to verify the correctness of your implementation.
+
+Example:
+Input:
+[[1, 2, 3], [4, 5, 6]]
+Output:
+[[1.0, 1.0], [1.0, 1.0]]
+Reasoning:
+The covariance between the two features is calculated based on their deviations from the mean. For the given vectors, both covariances are 1.0, resulting in a symmetric covariance matrix.'''
+
+
+import numpy as np
+from typing import List
+def calculate_covariance_matrix(vectors: List[List[float]]) -> List[List[float]]:
+    data = np.array(vectors)
+    cov_matrix = np.cov(data, bias=False)  
+    return cov_matrix.tolist()
+
+
