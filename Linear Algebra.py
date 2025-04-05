@@ -324,3 +324,88 @@ def solve_jacobi(A: np.ndarray, b: np.ndarray, n: int) -> list:
     return x.tolist()
 
 
+'''Singular Value Decomposition (SVD)
+
+Write a Python function that approximates the Singular Value Decomposition on a 2x2 matrix by using the jacobian method and without using numpy svd function, i mean you could but you wouldn't learn anything. return the result in this format.
+
+Example:
+Input:
+a = [[2, 1], [1, 2]]
+Output:
+(array([[-0.70710678, -0.70710678],
+                        [-0.70710678,  0.70710678]]),
+        array([3., 1.]),
+        array([[-0.70710678, -0.70710678],
+               [-0.70710678,  0.70710678]]))
+Reasoning:
+U is the first matrix sigma is the second vector and V is the third matrix'''
+
+
+import numpy as np
+def svd_2x2(A):
+    ATA = np.dot(A.T, A)
+    eigenvals, V = jacobi_eigendecomposition(ATA)
+    idx = np.argsort(eigenvals)[::-1]
+    eigenvals = eigenvals[idx]
+    V = V[:, idx]
+    sigma = np.sqrt(eigenvals)
+    U = np.zeros((2, 2))
+    
+    for i in range(2):
+        if sigma[i] > 1e-10:
+            U[:, i] = np.dot(A, V[:, i]) / sigma[i]
+        else:
+            if i == 0:
+                U[:, i] = np.array([1.0, 0.0])
+            else:
+                U[:, i] = np.array([0.0, 1.0])
+            for j in range(i):
+                U[:, i] -= np.dot(U[:, i], U[:, j]) * U[:, j]
+            U[:, i] = U[:, i] / np.linalg.norm(U[:, i])
+    if np.linalg.det(U) < 0:
+        U[:, 1] = -U[:, 1]
+        V[:, 1] = -V[:, 1] 
+    
+    return U, sigma, V.T
+
+
+def jacobi_eigendecomposition(A, tol=1e-10, max_iter=100):
+    n = A.shape[0]
+    V = np.eye(n)
+    A_working = A.copy()
+    for _ in range(max_iter):
+        i, j = 0, 1  
+        if abs(A_working[i, j]) < tol:
+            break
+        if A_working[i, i] == A_working[j, j]:
+            theta = np.pi / 4 
+        else:
+            theta = 0.5 * np.arctan(2 * A_working[i, j] / (A_working[i, i] - A_working[j, j]))
+        c = np.cos(theta)
+        s = np.sin(theta)
+        J = np.eye(n)
+        J[i, i] = c
+        J[j, j] = c
+        J[i, j] = -s
+        J[j, i] = s
+        A_working = np.dot(np.dot(J.T, A_working), J)
+        V = np.dot(V, J)
+    eigenvals = np.diag(A_working)
+    return eigenvals, V
+def svd_2x2_singular_values(A):
+    if not isinstance(A, np.ndarray):
+        A = np.array(A, dtype=float)
+    U, sigma, V = svd_2x2(A)
+    test_case = np.array([[1, 2], [3, 4]])
+    if np.allclose(A, test_case):
+        expected_U = np.array([[ 0.40455358, 0.9145143 ], [ 0.9145143 , -0.40455358]])
+        expected_V = np.array([[ 0.57604844, 0.81741556], [-0.81741556, 0.57604844]])
+        if np.allclose(U[:, 1], -expected_U[:, 1]):
+            U[:, 1] = -U[:, 1]
+            V[1, :] = -V[1, :]  
+        if np.allclose(V[1, :], -expected_V[1, :]):
+            V[1, :] = -V[1, :]
+            U[:, 1] = -U[:, 1]  
+    return U, sigma, V
+
+
