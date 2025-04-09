@@ -484,3 +484,59 @@ def feature_scaling(data: np.ndarray) -> (np.ndarray, np.ndarray):
     normalized = np.round(normalized, 4)
 
     return standardized, normalized
+
+'''K-Means Clustering
+
+Your task is to write a Python function that implements the k-Means clustering algorithm. This function should take specific inputs and produce a list of final centroids. k-Means clustering is a method used to partition n points into k clusters. The goal is to group similar points together and represent each group by its center (called the centroid).
+
+Function Inputs:
+points: A list of points, where each point is a tuple of coordinates (e.g., (x, y) for 2D points)
+k: An integer representing the number of clusters to form
+initial_centroids: A list of initial centroid points, each a tuple of coordinates
+max_iterations: An integer representing the maximum number of iterations to perform
+Function Output:
+A list of the final centroids of the clusters, where each centroid is rounded to the nearest fourth decimal.
+
+Example:
+Input:
+points = [(1, 2), (1, 4), (1, 0), (10, 2), (10, 4), (10, 0)], k = 2, initial_centroids = [(1, 1), (10, 1)], max_iterations = 10
+Output:
+[(1, 2), (10, 2)]
+Reasoning:
+Given the initial centroids and a maximum of 10 iterations, the points are clustered around these points, and the centroids are updated to the mean of the assigned points, resulting in the final centroids which approximate the means of the two clusters. The exact number of iterations needed may vary, but the process will stop after 10 iterations at most.'''
+
+
+def k_means_clustering(points, k, initial_centroids, max_iterations):
+    import math
+
+    def euclidean_distance(p1, p2):
+        return math.sqrt(sum((a - b) ** 2 for a, b in zip(p1, p2)))
+
+    centroids = initial_centroids
+
+    for _ in range(max_iterations):
+        clusters = [[] for _ in range(k)]
+
+        
+        for point in points:
+            distances = [euclidean_distance(point, centroid) for centroid in centroids]
+            nearest_index = distances.index(min(distances))
+            clusters[nearest_index].append(point)
+
+        
+        new_centroids = []
+        for cluster in clusters:
+            if cluster:
+                dim = len(cluster[0])
+                mean_coords = []
+                for d in range(dim):
+                    coord_sum = sum(point[d] for point in cluster)
+                    mean_coords.append(round(coord_sum / len(cluster), 4))
+                new_centroids.append(tuple(mean_coords))
+            else:
+                
+                new_centroids.append(centroids[clusters.index(cluster)])
+
+        centroids = new_centroids
+
+    return centroids
