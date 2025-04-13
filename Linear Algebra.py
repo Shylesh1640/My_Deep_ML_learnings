@@ -631,3 +631,26 @@ def sigmoid(z: float) -> float:
     result = 1 / (1 + math.exp(-z))
     return round(result, 4)
 
+'''Softmax Activation Function Implementation
+
+Write a Python function that computes the softmax activation for a given list of scores. The function should return the softmax values as a list, each rounded to four decimal places.
+
+Example:
+Input:
+scores = [1, 2, 3]
+Output:
+[0.0900, 0.2447, 0.6652]
+Reasoning:
+The softmax function converts a list of values into a probability distribution. The probabilities are proportional to the exponential of each element divided by the sum of the exponentials of all elements in the list.'''
+
+
+
+import math
+
+def softmax(scores: list[float]) -> list[float]:
+	max_score = max(scores)
+    exp_scores = [math.exp(s - max_score) for s in scores]
+    sum_exp = sum(exp_scores)
+    probabilities = [round(score / sum_exp, 4) for score in exp_scores]
+	return probabilities
+
