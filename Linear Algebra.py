@@ -1,4 +1,4 @@
-'''I am doing a daily challange in https://www.deep-ml.com/'''
+8'''I am doing a daily challange in https://www.deep-ml.com/'''
 
 '''1.Matrix-Vector Dot Product
 
@@ -742,3 +742,8 @@ def shuffle_data(X, y, seed=None):
     X_shuffled = X[indices]
     y_shuffled = y[indices]
     return X_shuffled, y_shuffled
+
+
+
+
+
